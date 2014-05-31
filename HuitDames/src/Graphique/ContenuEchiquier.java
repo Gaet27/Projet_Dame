@@ -5,63 +5,81 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import Model.Case;
+
 public class ContenuEchiquier extends JPanel {
 	
-	private int posX = 35;
-	private int posY = 35;
+	public ArrayList<Case> listeCase = new ArrayList<Case>();
+	static final int TailleCase = 200;
+	static final int nbCaseX = 800;
+	static final int nbCaseY = 800;
 	
-	static final int TailleCase = 100;
-	static final int nbCaseX = 400;
-	static final int nbCaseY = 400;
-	
-	public ContenuEchiquier(){
-		JPanel jpanel = new JPanel();
-	}
 	
 	public void paintComponent(Graphics g)
     {
 		//x1, y1, width, height
 		Color case1 = new Color(204,102,51);
 		Color case2 = new Color(255,255,204);
+		//faire un jtextfield ou equivalent pour afficher le score
 		
         g.setColor(case1);
-        g.fillRect(30, 30, 400, 400);
-        g.drawRect(29, 29, 401, 401);
+        g.fillRect(60, 60, 800, 800);
+        g.drawRect(59, 59, 801, 801);
         g.setColor(case2);
         
-        for (int stripeX = 30; stripeX < nbCaseX; stripeX += TailleCase) {
-            for (int y = 30, row = 0; y < nbCaseY; y += TailleCase/2, ++row) {
+        
+        for (int stripeX = 60; stripeX < nbCaseX; stripeX += TailleCase) {
+            for (int y = 60, row = 0; y < nbCaseY; y += TailleCase/2, ++row) {
                 int x = (row % 2 == 0) ? stripeX : (stripeX + TailleCase/2);
                 g.fillRect(x, y, TailleCase/2, TailleCase/2);
             }
         }
         
-        for(int i=1; i<=8; i++)
+        for(Case key : getCase())
         {
 	        try {
-	            Image dame = ImageIO.read(new File("res/Dame.png"));
-	            g.drawImage(dame, posX, posY, 60, 60, this);
+	            Image dame = ImageIO.read(new File("res/Dames.png"));
+	            g.drawImage(dame, key.getX(), key.getY(), 31, 88, this);
 	          } catch (IOException e) {
 	            e.printStackTrace();
 	        }
-        }
+	    }
     }
-	
-
-	public int getPosX() {
-		return posX;
-	}
-	public void setPosX(int posX) {
-		this.posX = posX;
-	}
-	public int getPosY() {
-		return posY;
-	}
-	public void setPosY(int posY) {
-		this.posY = posY;
-	}	
+        
+    public ArrayList<Case> getCase()
+    {
+    	return listeCase;
+    }
+    
+    public void setCase(Case caseE){
+    	listeCase.add(caseE);
+    }
+		
+		//Test de placement : une dame par case
+//		int posX = 0;
+//		int posY = 0;
+//		
+//		for(int i=0; i<8; i++)
+//		{
+//			posX = posX + 99;
+//			posY = 0;
+//
+//			for(int j=0; j<8; j++)
+//			{
+//				posY = posY + 101;
+//				if(j==0){posY=60;}
+//
+//		        try {
+//		            Image dame = ImageIO.read(new File("res/Dames.png"));
+//		            g.drawImage(dame, posX, posY, 31, 88, this);
+//		          } catch (IOException e) {
+//		            e.printStackTrace();
+//		        }
+//			}
+//		}
 }
